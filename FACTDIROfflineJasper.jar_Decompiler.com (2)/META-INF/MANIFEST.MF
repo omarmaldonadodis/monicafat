@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.7
+Created-By: 1.8.0_202-b08 (Oracle Corporation)
+Class-Path: lib/MITyCLibAPI-1.1.7.jar lib/MITyCLibCert-1.1.7.jar lib/M
+ ITyCLibXADES-1.1.7.jar lib/bcmail-jdk16-1.45.jar lib/commons-logging-
+ 1.1.1.jar lib/commons_logging.jar lib/log4j.jar lib/mail.jar lib/mysq
+ l-connector-java-5.1.23-bin.jar lib/xmlsec-1.4.2-ADSI-1.1.jar lib/bar
+ code4j-2.1.jar lib/batik-all-1.7.jar lib/com-jaspersoft-ireport-compo
+ nents.jar lib/com-jaspersoft-ireport-jasperserver.jar lib/com-jaspers
+ oft-ireport.jar lib/com-jaspersoft-jrx.jar lib/commons-beanutils-1.8.
+ 2.jar lib/commons-collections-3.2.1.jar lib/commons-digester-2.1.jar 
+ lib/commons-javaflow-20060411.jar lib/commons-javaflow.jar lib/common
+ s-logging-1.1.jar lib/dom4j-1.6.jar lib/groovy-all-2.0.1.jar lib/iTex
+ t-2.1.7.js2.jar lib/iTextAsian.jar lib/jasper-compiler-jdt.jar lib/ja
+ sperreports-5.0.1.jar lib/log4j-1.2.15.jar lib/xml-apis-ext.jar lib/x
+ ml-apis.jar lib/activation-1.1.1.jar lib/barcode4j-2.1.jar lib/batik-
+ all-1.7.jar lib/com-jaspersoft-ireport-components.jar lib/com-jaspers
+ oft-ireport-jasperserver.jar lib/com-jaspersoft-ireport.jar lib/com-j
+ aspersoft-jrx.jar lib/commons-beanutils-1.8.2.jar lib/commons-collect
+ ions-3.2.1.jar lib/commons-digester-2.1.jar lib/commons-javaflow-2006
+ 0411.jar lib/commons-javaflow.jar lib/commons-logging-1.1.jar lib/com
+ mons_logging.jar lib/dom4j-1.6.jar lib/groovy-all-2.0.1.jar lib/iText
+ -2.1.7.js2.jar lib/iTextAsian.jar lib/jasper-compiler-jdt.jar lib/jas
+ perreports-5.0.1.jar lib/javax.mail-1.6.2.jar lib/javax.mail-api-1.6.
+ 2.jar lib/log4j-1.2.15.jar lib/log4j.jar lib/mail.jar lib/mysql-conne
+ ctor-java-5.1.23-bin.jar lib/xml-apis-ext.jar lib/xml-apis.jar lib/xm
+ lsec-1.4.2-ADSI-1.1.jar lib/w3c-dom.jar
+X-COMMENT: Main-Class will be added automatically by build
+Main-Class: FACTDIROFFLINE.FACTDIROffline
+
