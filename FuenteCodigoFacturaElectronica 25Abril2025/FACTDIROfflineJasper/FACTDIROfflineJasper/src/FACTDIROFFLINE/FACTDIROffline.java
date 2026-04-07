@@ -81,6 +81,25 @@ public class FACTDIROffline {
             ProcesarComprobantesPendientes(dir);
             ProcesarComprobantesPendientesSRI();
             ProcesarComprobantesPendientesAutorizacion();
+
+            // Hilo de reintento automático cada 5 minutos
+            Thread hiloReintento = new Thread(() -> {
+                while (true) {
+                    try {
+                        Thread.sleep(5 * 60 * 1000L);
+                        principal.ActualizarText("Reintento automático...");
+                        ProcesarComprobantesPendientesSRI();
+                        ProcesarComprobantesPendientesAutorizacion();
+                    } catch (InterruptedException e) {
+                        break;
+                    } catch (Exception e) {
+                        principal.ActualizarText("Error en reintento: " + e.getMessage());
+                    }
+                }
+            });
+            hiloReintento.setDaemon(true);
+            hiloReintento.start();
+
             dir.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
 
             boolean valid;
@@ -147,17 +166,21 @@ public class FACTDIROffline {
                     if (estado.equals("AUTORIZADO")) {
                         ProcesarRespuesta(fullPath, fileName, respuestaInterna, ruc, true);
                     } else if (estado.equals("PROCESANDOSE")) {
-                        // NUEVO: si lleva más de 30 min en PROCESANDOSE, mover a PendienteSRI para reenviar
                         long edadMinutos = (System.currentTimeMillis() - archivos[x].lastModified()) / 60000L;
                         if (edadMinutos > 30L) {
                             principal.ActualizarText("Comprobante lleva " + edadMinutos + " min en PROCESANDOSE. Moviendo a PendienteSRI...");
                             String dirPendiente = Paths.get(configuracion.getProperty("dirPendienteSRI")).resolve(fileName).toString();
                             archivos[x].renameTo(new File(dirPendiente));
                         } else {
-                            principal.ActualizarText("Comprobante aún procesándose (" + edadMinutos + " min). Se reintentará en el próximo ciclo.");
+                            principal.ActualizarText("Comprobante aún procesándose (" + edadMinutos + " min). Se reintentará.");
                         }
                     } else if (estado.equals("NO AUTORIZADO") || estado.equals("DEVUELTA")) {
                         ProcesarRespuesta(fullPath, fileName, respuestaInterna, ruc, false);
+                    } else {
+                        // ERROR u otro estado desconocido → mover a PendienteSRI para reenviar
+                        principal.ActualizarText("Estado inesperado '" + estado + "'. Moviendo a PendienteSRI para reenvío...");
+                        String dirPendiente = Paths.get(configuracion.getProperty("dirPendienteSRI")).resolve(fileName).toString();
+                        archivos[x].renameTo(new File(dirPendiente));
                     }
                 }
             }
@@ -342,7 +365,11 @@ public class FACTDIROffline {
                 principal.ActualizarText("Comprobante: " + fileName + " guardado en: " + dirGuardarDoc);
             }
 
-            if (respuestaInterna.getEstadoComprobante() != null
+            boolean mismaUbicacion = fullPath.toAbsolutePath().toString()
+                    .equals(Paths.get(dirGuardarDoc).toAbsolutePath().toString());
+
+            if (!mismaUbicacion
+                    && respuestaInterna.getEstadoComprobante() != null
                     && !respuestaInterna.getEstadoComprobante().equals("ERROR")
                     && !respuestaInterna.getEstadoComprobante().equals("PROCESANDOSE")) {
                 file.delete();
